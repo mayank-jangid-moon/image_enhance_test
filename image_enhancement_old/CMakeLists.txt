@@ -1,30 +1,24 @@
-# Minimum CMake version required
 cmake_minimum_required(VERSION 3.10)
 
 # Project Name
-project(OpenCV_OpenCL_Project)
+project(ImageEnhancement)
 
-# Find OpenCV package
+# Specify the C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Optimization and OpenMP Flags
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -fopenmp")
+
+# Find OpenCV Package
 find_package(OpenCV REQUIRED)
 
-# Check for OpenCL support
-if(OpenCV_VERSION VERSION_LESS "4.0")
-    message(FATAL_ERROR "OpenCL support requires OpenCV 4.0 or higher")
-endif()
-
-# Print OpenCV build information for debugging
-message(STATUS "OpenCV version: ${OpenCV_VERSION}")
-message(STATUS "OpenCV include directories: ${OpenCV_INCLUDE_DIRS}")
-message(STATUS "OpenCV libraries: ${OpenCV_LIBS}")
-
-# Add the source code
-add_executable(${PROJECT_NAME} image_enhancement.cpp)
-
-# Include OpenCV headers
+# Include OpenCV directories
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-# Link OpenCV libraries
-target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
+# Add the executable target
+add_executable(image_enhancement image_enhancement.cpp)
 
-# Enable OpenCL support
-add_definitions(-DWITH_OPENCL)
+# Link the OpenCV libraries
+target_link_libraries(image_enhancement ${OpenCV_LIBS})
+
